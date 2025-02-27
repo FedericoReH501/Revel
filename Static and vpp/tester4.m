@@ -1,4 +1,4 @@
-%% Equilibrium of forces in 3 df.
+%% Equilibrium of forces in 3 df
 clc; clear; close all;
 
 %% Enviroment data
