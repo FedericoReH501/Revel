@@ -8,6 +8,7 @@ classdef CenterFoil
     end
     
     properties
+        vb;
         thetaL; %AOA
         span;   % Main foil span [m]
         cm;  %average chord
@@ -22,9 +23,10 @@ classdef CenterFoil
     
     methods
         % Constructor
-        function obj = CenterFoil(thetaL, span , cm)
+        function obj = CenterFoil(vb ,thetaL, span , cm)
             % Initialize the angle of attack and calculate the lift and drag coefficients
             global ro_water;
+            obj.vb = vb;
             obj.thetaL = thetaL;
             obj.span = span;
             obj.cm = cm;
@@ -41,16 +43,16 @@ classdef CenterFoil
         
         % Method to calculate Lift
         function Lift = Lift(obj)
-            global vb ro_water;  % Access the global variable vb (velocity)
+            global ro_water;  % Access the global variable vb (velocity)
             % Lift = 0.5 * Cl_cf * ro_water * vb^2 * S_cf;
-            Lift = 0.5 * obj.Cl * ro_water * vb^2 * obj.S;
+            Lift = 0.5 * obj.Cl * ro_water * obj.vb^2 * obj.S;
         end
         
         % Method to calculate Drag
         function Drag = Drag(obj)
-            global vb ro_water;  % Access the global variable vb (velocity)
+            global ro_water;  % Access the global variable vb (velocity)
             % Drag = 0.5 * ro_water * vb^2 * ((cd_cf + Cdi_cf + Cdw_cf) * S_cf + Cdws_cf * t_cf^2);
-            Drag = 0.5 * ro_water * vb^2 * ((obj.Cd + obj.Cdi + obj.Cdw)*obj.S + obj.Cdws * obj.t^2) ;
+            Drag = 0.5 * ro_water * obj.vb^2 * ((obj.Cd + obj.Cdi + obj.Cdw)*obj.S + obj.Cdws * obj.t^2) ;
         end
 
         function Torque = Torque(obj) %% Total torque (to the origin)

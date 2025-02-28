@@ -11,6 +11,7 @@ classdef RudderFoil
     end
     
     properties
+        vb;
         thetaL;
         span;  % Main foil span [m]
         cm ; % Mean chord [m]   
@@ -24,9 +25,10 @@ classdef RudderFoil
     
     methods
         % Constructor
-        function obj = RudderFoil(thetaL, span, cm)
+        function obj = RudderFoil(vb, thetaL, span, cm)
             % Initialize the angle of attack and calculate the lift and drag coefficients
             global ro_water;
+            obj.vb = vb;
             obj.thetaL = thetaL;
             obj.span = span;
             obj.cm = cm;
@@ -42,16 +44,16 @@ classdef RudderFoil
         
         % Method to calculate Lift
         function L_rf = Lift(obj)
-            global vb ro_water;  % Access the global variable vb (velocity)
+            global ro_water;  % Access the global variable vb (velocity)
             % L_rf = 0.5 * Cl_rf * ro_water * vb^2 * S_rf;
-            L_rf = 0.5 * obj.Cl * ro_water * vb^2 * obj.S;
+            L_rf = 0.5 * obj.Cl * ro_water * obj.vb^2 * obj.S;
         end
         
         % Method to calculate Drag
         function D_rf = Drag(obj)
-            global vb ro_water;  % Access the global variable vb (velocity)
+            global ro_water;  % Access the global variable vb (velocity)
             
-            D_rf = 0.5 * ro_water * vb^2 * ((obj.Cd + obj.Cdi + obj.Cdw)* obj.S  + obj.Cdws * obj.t^2);
+            D_rf = 0.5 * ro_water * obj.vb^2 * ((obj.Cd + obj.Cdi + obj.Cdw)* obj.S  + obj.Cdws * obj.t^2);
         end
 
         function Torque = Torque(obj)

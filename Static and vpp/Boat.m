@@ -1,6 +1,6 @@
 classdef Boat
     properties (Constant)
-        mass = 40;   % Mass of the boat in kg
+        mass = 50;   % Mass of the boat in kg
         xg = 1.6;     % Position of the center of gravity in the x-direction (m)
         zg = 0.45;     % Position of the center of gravity in the z-direction (m)
         
@@ -13,6 +13,7 @@ classdef Boat
 
     properties
         wind;
+        SpeedRange;
     end
     
     methods
@@ -21,6 +22,8 @@ classdef Boat
             if nargin > 0
                 
                 obj.wind = wind;  % Assign the Wind object to the wind property
+                obj.SpeedRange = [obj.wind.TWS * 0.51444 * 0.7, obj.wind.TWS * 0.51444*1.5];
+            
             end
             % Constants are set, so no need for initialization here
         end
@@ -57,10 +60,10 @@ classdef Boat
             Torque = - weight * abs(obj.xg) + D_windage * abs(obj.z_windage);
         end
 
-        function SpeedRange = SpeedRange(obj)
-            wind_ms =obj.wind.TWS * 0.51444;
-            SpeedRange = [wind_ms * 0.7,wind_ms*1.5];
+        %function SpeedRange = SpeedRange(obj)
+           % wind_ms =obj.wind.TWS * 0.51444;
+           % SpeedRange = [wind_ms * 0.7,wind_ms*1.5];
             
-        end
+       % end
     end
 end
