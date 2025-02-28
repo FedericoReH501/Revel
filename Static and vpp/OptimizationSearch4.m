@@ -40,7 +40,7 @@ ub = [10, 5, crew.range(2),0.8,0.8];
 %% Defining equilibrium constrain
 
 % Set optimization options
-options = optimoptions('fmincon', 'Display', 'iter', 'Algorithm', 'sqp','MaxFunctionEvaluations', 100000);
+options = optimoptions('fmincon', 'Display', 'iter', 'Algorithm', 'sqp','MaxFunctionEvaluations', 100005);
 
 % Run the optimization
 [x_opt, fval] = fmincon(opt_fun, x0, [], [], [], [], lb, ub, @(x) equilibrium_constraints(x, Fx_eq, Fz_eq, My_eq), options);
