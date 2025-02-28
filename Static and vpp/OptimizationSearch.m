@@ -8,7 +8,7 @@ wind_speed = 10; %[knot]
 g = 9.81;  % Gravitational constant (m/s^2)
 ro_air = 1.225; %[kg/m^3]
 ro_water = 1025; %[kg/m^3]
-syms  thetaL x_crew vb y
+syms  thetaL x_crew vb 
 
 %% Define the components of the system.
 
