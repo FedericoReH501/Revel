@@ -1,4 +1,4 @@
-function solver(eq1 ,eq2 ,eq3 ,x1 ,x2 ,x3 , ranges)
+function sol = solver(eq1 ,eq2 ,eq3 ,x1 ,x2 ,x3 , ranges)
     
     sol = vpasolve([eq1, eq2, eq3], [x1, x2, x3], ranges);
 

@@ -12,7 +12,7 @@ syms  thetaL x_crew vb cfSpan rfSpan
 
 %% Define the components of the system.
 
-wind = Wind(vb,wind_speed,50); % initialize speed[Kn] and Angle[deg]
+wind = Wind(vb,wind_speed,60); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
 centerFoil = CenterFoil(vb,thetaL, cfSpan, 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
