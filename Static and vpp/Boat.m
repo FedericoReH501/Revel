@@ -3,7 +3,6 @@ classdef Boat
         mass = 50;   % Mass of the boat in kg
         xg = 1.6;     % Position of the center of gravity in the x-direction (m)
         zg = 0.45;     % Position of the center of gravity in the z-direction (m)
-        
         Ax = 2; % Projected area on yz plane of hull, mast, rig, and crew     
         x_windage = 3.5; % Longitudinal position of windage drag
         z_windage = 1;   % Vertical position of windage drag
@@ -22,7 +21,7 @@ classdef Boat
             if nargin > 0
                 
                 obj.wind = wind;  % Assign the Wind object to the wind property
-                obj.SpeedRange = [obj.wind.TWS * 0.51444 * 0.4, obj.wind.TWS * 0.51444*7];
+                obj.SpeedRange = [obj.wind.TWS * 0.51444 * 0.4, obj.wind.TWS * 0.51444 * 1.5];
             
             end
             % Constants are set, so no need for initialization here
@@ -41,14 +40,19 @@ classdef Boat
             fprintf('Boat zg: %.2f m\n', Boat.zg);
         end
 
-        function D_windage = Windage(obj)
+        function Windage = Windage(obj)
             % Define windage parameters
             global ro_air;
 
-            AWS = obj.wind.AWS();  % Apparent Wind Speed in knots
-            AWA = obj.wind.AWA();  % Apparent Wind Angle in degrees
+            AWS = obj.wind.AWS() * 0.514444;  % Apparent Wind Speed in ms
+            AWA = deg2rad(obj.wind.AWA());  % Apparent Wind Angle in rad
+            
             % Calculate windage drag
-            D_windage = 0.5 * obj.Cd_w * ro_air * obj.Ax * (AWS)^2 * cos(AWA);
+
+           
+            Windage = 0.5 * obj.Cd_w * ro_air * obj.Ax * (AWS)^2 * cos(AWA);
+            
+            
         end
 
         function Torque = Torque(obj)

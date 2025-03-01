@@ -32,7 +32,7 @@ classdef Sail
 
             
             % Apparent wind speed (AWS) and angle (AWA)
-            AWS_ms = obj.wind.AWS;
+            AWS_ms = obj.wind.AWS* 0.51444;
             
             
             % Retrieve aerodynamic coefficients (numerical values)
@@ -41,7 +41,8 @@ classdef Sail
             Cl_sail = Cl_fine(index);          % Numerical
             Cd_sail = Cd_fine(index);          % Numerical
             
-
+            disp('Cl sail');
+            disp(Cl_sail);
             
             % Induced drag coefficient (numerical)
             Cdi = Cl_sail^2 / (pi * obj.Ar_sail + 0.005);
@@ -50,11 +51,15 @@ classdef Sail
             L_sail = 0.5 * Cl_sail * obj.ro_air * obj.Sa * AWS_ms^2;
             D_sail = 0.5 * (Cd_sail + Cdi) * obj.ro_air * obj.Sa * AWS_ms^2;
 
-            disp([' object Lsail = ', char(L_sail)]);
+            
+            disp('Sail Lift no Proj');
+            disp(L_sail);
 
+            disp('Sail Lift no Proj');
+            disp(L_sail);
             
             % Compute Thrust
-            T = L_sail * sin(AWA_rad) - D_sail * cos(AWA_rad);
+            T = L_sail * cos(AWA_rad) - D_sail * sin(AWA_rad);
             
         end
         
@@ -85,6 +90,14 @@ classdef Sail
             
             % Compute Side Force
             S = L_sail * cos(AWA_rad) + D_sail * sin(AWA_rad);
+        end
+
+        function Torque = Torque(obj)
+            % Compute Thrust
+            T = obj.Thrust();
+            
+            % Compute Torque (Thrust * z)
+            Torque = - T * abs(obj.z);
         end
     end
 end

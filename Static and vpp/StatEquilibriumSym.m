@@ -33,7 +33,7 @@ eq33 = centerFoil.Torque + rudderFoil.Torque + sail.Torque + boat.Torque - crew.
 %% Define dynamic initial guess ranges
 
 ranges = [boat.SpeedRange;   % Range for vb
-         -5, 5; % Range for thetaL
+         -2, 2; % Range for thetaL
          crew.range]; % Range for x_crew
 
 disp(boat.SpeedRange);
@@ -42,9 +42,9 @@ disp(boat.SpeedRange);
 
 sol = solver(eq1,eq2,eq3,vb,thetaL,x_crew, ranges);
 
-[cin, ceq] = equilibrium_constraints([sol.vb,sol.thetaL,sol.x_crew],eq11,eq22,eq33);
-disp('equations');
-disp(ceq);
+%[cin, ceq] = equilibrium_constraints([sol.vb,sol.thetaL,sol.x_crew],eq11,eq22,eq33);
+%disp('equations');
+%disp(ceq);
 
 
 function [cin, ceq] = equilibrium_constraints(x, eq1, eq2, eq3)

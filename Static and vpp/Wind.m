@@ -21,7 +21,8 @@ classdef Wind
             TWS_ms = obj.TWS * 0.51444;  % Convert True Wind Speed from knots to m/s
             TWA_rad = deg2rad(obj.TWA);  % Convert True Wind Angle from degrees to radians
             
-            AWS_ms = sqrt((TWS_ms * sin(TWA_rad))^2 + (TWS_ms * cos(TWA_rad) + obj.vb)^2);  % Apparent wind speed in m/s
+            %AWS_ms = sqrt((TWS_ms * sin(TWA_rad))^2 + (TWS_ms * cos(TWA_rad) + obj.vb)^2);  % Apparent wind speed in m/s
+            AWS_ms = sqrt(TWS_ms^2 + obj.vb^2 + 2 * (obj.vb * TWS_ms * cos(TWA_rad)))
             AWS = AWS_ms / 0.51444;  % Convert Apparent Wind Speed back to knots
         end
         
