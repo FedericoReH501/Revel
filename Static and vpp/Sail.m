@@ -53,41 +53,14 @@ classdef Sail
             
         end
         
-        % Method to calculate Side Force
-        function S = SideForce(obj)
-            global vb
-            % Load sail aerodynamic coefficients (assumes the MAT file is in the path)
-            load('SailCoefficent.mat', 'Cl_fine', 'Cd_fine');
-            
-            % Extract wind parameters from the Wind object
-            
-            AWA_rad = deg2rad(obj.wind.AWA);   % Convert AWA to radians
-            
-            % Apparent wind speed (AWS) and angle (AWA)
-            AWS_ms = obj.wind.AWS;
-            
-            % Retrieve aerodynamic coefficients (numerical values)
-            index = round(obj.wind.TWA);       % Assuming TWA is an integer angle
-            Cl_sail = Cl_fine(index);          % Numerical
-            Cd_sail = Cd_fine(index);          % Numerical
-            
-            % Induced drag coefficient (numerical)
-            Cdi = Cl_sail^2 / (pi * obj.Ar_sail + 0.005);
-            
-            % Compute Lift and Drag (numerical because coefficients are numbers)
-            L_sail = 0.5 * Cl_sail * obj.ro_air * obj.Sa * AWS_ms^2;
-            D_sail = 0.5 * (Cd_sail + Cdi) * obj.ro_air * obj.Sa * AWS_ms^2;
-            
-            % Compute Side Force
-            S = L_sail * cos(AWA_rad) + D_sail * sin(AWA_rad);
-        end
+        
 
         function Torque = Torque(obj)
             % Compute Thrust
             T = obj.Thrust();
             
             % Compute Torque (Thrust * z)
-            Torque = - T * abs(obj.z);
+            Torque =  T * abs(obj.z);
         end
     end
 end

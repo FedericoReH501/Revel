@@ -13,14 +13,14 @@ ro_water = 1025; %[kg/m^3]
 %% Define the components of the system.
 
 
-S2 = [7.8091, (-0.99675), 0.3376];
+S2 = [7.1314, -0.48797, 1.9226];
 
 wind = Wind(S2(1),wind_speed,60); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt
 centerVertical = Vertical(S2(1), 0.4, 0.12);
 rudderVertical = Vertical(S2(1), 0.3, 0.12);
-centerFoil = CenterFoil(S2(1), S2(2), 1 , 0.1); % initialize center foil model passing AoA[degree] , span & chord[m]
+centerFoil = CenterFoil(S2(1), S2(2), 1 , 0.12); % initialize center foil model passing AoA[degree] , span & chord[m]
 rudderFoil = RudderFoil(S2(1), S2(2) , 0.65, 0.075); % rudder foil model passing span[m]
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 

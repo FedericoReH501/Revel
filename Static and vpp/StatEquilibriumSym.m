@@ -15,10 +15,13 @@ syms  thetaL x_crew vb
 wind = Wind(vb,wind_speed,60); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
+
 centerFoil = CenterFoil(vb,thetaL, 1, 0.12); % initialize center foil model passing AoA[degree] , span & chord[m]
 rudderFoil = RudderFoil(vb,thetaL ,0.65, 0.075); % rudder foil model passing span[m]
-rudderVertical = Vertical(vb,0.4,0.12);
-centerVertical = Vertical(vb,0.3,0.12);
+
+centerVertical = Vertical(vb,0.4,0.12);
+rudderVertical = Vertical(vb,0.3,0.12);
+
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 
 
@@ -35,10 +38,8 @@ eq33 = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVer
 %% Define dynamic initial guess ranges
 
 ranges = [boat.SpeedRange;   % Range for vb
-         -5, 15; % Range for thetaL
+         -5, 5; % Range for thetaL
          crew.range]; % Range for x_crew
-
-disp(boat.SpeedRange);
 
 %% Solve, print and check for vb, thetaL, and x_crew 
 
