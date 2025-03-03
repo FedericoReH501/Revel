@@ -12,7 +12,7 @@ syms  thetaL x_crew vb cfSpan rfSpan
 
 %% Define the components of the system.
 
-wind = Wind(wind_speed,50); % initialize speed[Kn] and Angle[deg]
+wind = Wind(vb,wind_speed,50); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
 centerFoil = CenterFoil(vb,thetaL, cfSpan, 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
@@ -28,19 +28,19 @@ My_eq = centerFoil.Torque + rudderFoil.Torque + sail.Torque + boat.Torque - crew
 
 %% Define Optimization Problem
 
-opt_fun = @(x) -x(1);  % We want to maximize boat speed (negative for minimization)
+opt_fun = @(x) -x(1) ;  % We want to maximize boat speed (negative for minimization)
 
 % Initial guess for the variables
 x0 = [7, 2, mean(crew.range),0.8,0.3];
 
 % Lower and upper bounds for the variables
 lb = [0, -5, crew.range(1),0.3,0.3];
-ub = [12, 5, crew.range(2),0.8,0.8];
+ub = [10, 5, crew.range(2),0.8,0.8];
 
 %% Defining equilibrium constrain
 
 % Set optimization options
-options = optimoptions('fmincon', 'Display', 'iter', 'Algorithm', 'sqp');
+options = optimoptions('fmincon', 'Display', 'iter', 'Algorithm', 'sqp','MaxFunctionEvaluations', 100000);
 
 % Run the optimization
 [x_opt, fval] = fmincon(opt_fun, x0, [], [], [], [], lb, ub, @(x) equilibrium_constraints(x, Fx_eq, Fz_eq, My_eq), options);
@@ -53,7 +53,8 @@ best_cfSpan = x_opt(4);
 best_rfSpan = x_opt(5);
 
 % Display results
-disp(['Optimal Boat Speed: ', num2str(best_vb), ' m/s']);
+disp('Optimal values')
+disp(['Boat Speed: ', num2str(best_vb), ' m/s']);
 disp(['Optimal Foil Angle (thetaL): ', num2str(best_thetaL), ' degrees']);
 disp(['Optimal Crew Position (x_crew): ', num2str(best_x_crew), ' m']);
 disp(['Optimal center foil span: ', num2str(best_cfSpan), ' m']);
