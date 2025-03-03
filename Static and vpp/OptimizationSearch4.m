@@ -15,8 +15,10 @@ syms  thetaL x_crew vb cfSpan rfSpan
 wind = Wind(vb,wind_speed,50); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
+
 centerFoil = CenterFoil(vb,thetaL, cfSpan, 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
 rudderFoil = RudderFoil(vb,thetaL ,rfSpan, 0.075); % rudder foil model passing span[m]
+
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 
 
