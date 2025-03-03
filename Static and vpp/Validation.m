@@ -13,7 +13,7 @@ ro_water = 1025; %[kg/m^3]
 %% Define the components of the system.
 
 
-S2 = [7.1314, -0.48797, 1.9226];
+S2 = [7.2827, 0.61711, 0.92618];
 
 wind = Wind(S2(1),wind_speed,60); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model

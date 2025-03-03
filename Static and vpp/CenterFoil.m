@@ -36,8 +36,8 @@ classdef CenterFoil
             [cl_cf, cd_cf] = Coefficent_f1(obj.thetaL);  % Assuming Coefficent_f1 calculates cl and cd based on thetaL
             obj.Cl = cl_cf / (1 + 2 / obj.AR); % 3D lift coefficient
             obj.Cd = cd_cf;  % Assign drag coef;ficient
-            obj.Cdw = 0.025*obj.Cl^2*obj.cm/obj.h;
-            obj.Cdi = obj.Cl^2/(pi*obj.AR);
+            obj.Cdw = 0.025*obj.Cl^2*obj.cm / obj.h;
+            obj.Cdi = obj.Cl^2 / (pi*obj.AR);
             % Assuming the induced drag, wave drag, and wetted surface drag coefficients are given or calculated
         end
         
