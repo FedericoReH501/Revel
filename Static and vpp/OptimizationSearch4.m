@@ -17,8 +17,8 @@ boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
 centerFoil = CenterFoil(vb,thetaL, cfSpan, 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
 rudderFoil = RudderFoil(vb,thetaL ,rfSpan, 0.075); % rudder foil model passing span[m]
-rudderVertical = Vertical(vb,0.4,0.12);
-centerVertical = Vertical(vb,0.3,0.12);
+rudderVertical = Vertical(vb,0.3,0.12);
+centerVertical = Vertical(vb,0.4,0.12);
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 
 
@@ -26,7 +26,7 @@ sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind mo
 
 Fx_eq = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag - centerVertical.Drag - rudderVertical.Drag ;   % Fx equation
 Fz_eq = centerFoil.Lift + rudderFoil.Lift - crew.Weight - boat.Weight ;    % Fz equation
-My_eq = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVertical.Torque + sail.Torque + boat.Torque - crew.Weight*x_crew; % My equation
+My_eq = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVertical.Torque + sail.Torque + boat.Torque - crew.Weight*x_crew % My equation
 
 %% Define Optimization Problem
 
