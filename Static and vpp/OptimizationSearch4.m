@@ -41,7 +41,7 @@ x0 = [8, 0, mean(crew.range),0.8,0.6];
 
 % Lower and upper bounds for the variables
 lb = [0, -5, crew.range(1),0.3,0.3];
-ub = [10, 5, crew.range(2),0.8,0.8];
+ub = [10, 5, crew.range(2),0.8,0.9];
 
 %% Defining equilibrium constrain
 
@@ -58,6 +58,10 @@ best_x_crew = x_opt(3);
 best_cfSpan = x_opt(4);
 best_rfSpan = x_opt(5);
 
+%Check equilinbrium
+
+validateEquilibrium([-fval , x_opt(2), x_opt(3), x_opt(4), x_opt(5)]);
+
 % Display results
 disp('Optimal values')
 disp(['Boat Speed: ', num2str(best_vb), ' m/s']);
@@ -65,6 +69,8 @@ disp(['Optimal Foil Angle (thetaL): ', num2str(best_thetaL), ' degrees']);
 disp(['Optimal Crew Position (x_crew): ', num2str(best_x_crew), ' m']);
 disp(['Optimal center foil span: ', num2str(best_cfSpan), ' m']);
 disp(['Optimal optimal rudder foil span: ', num2str(best_rfSpan), ' m']);
+
+
 
 
 function [cin, ceq] = equilibrium_constraints(x, Fx_eq, Fz_eq, My_eq)
