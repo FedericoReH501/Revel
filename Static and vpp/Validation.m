@@ -12,23 +12,23 @@ ro_water = 1025; %[kg/m^3]
 
 %% Define the components of the system.
 
-s1 = [7,0.21457,0.3];
-S2 = [7, -0.48797, 0.31613];
 
-wind = Wind(S2(1),wind_speed,90); % initialize speed[Kn] and Angle[deg]
+S2 = [7.8091, (-0.99675), 0.3376];
+
+wind = Wind(S2(1),wind_speed,60); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt
-centerVertical = Vertical(S2(1),0.4,0.12);
-rudderVertical = Vertical(S2(1),0.3,0.12);
-centerFoil = CenterFoil(S2(1),S2(2), 1 , 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
-rudderFoil = RudderFoil(S2(1),S2(2) , 0.65, 0.075); % rudder foil model passing span[m]
+centerVertical = Vertical(S2(1), 0.4, 0.12);
+rudderVertical = Vertical(S2(1), 0.3, 0.12);
+centerFoil = CenterFoil(S2(1), S2(2), 1 , 0.1); % initialize center foil model passing AoA[degree] , span & chord[m]
+rudderFoil = RudderFoil(S2(1), S2(2) , 0.65, 0.075); % rudder foil model passing span[m]
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 
 
 %% Equilibrium equations
 
 
-eq11 = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag - centerVertical.Drag - rudderVertical.Drag;   % Fx equation
+eq11 = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag - centerVertical.Drag - rudderVertical.Drag ;   % Fx equation
 eq22 = centerFoil.Lift + rudderFoil.Lift - crew.Weight - boat.Weight;    % Fz equation
 eq33 = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVertical.Torque + sail.Torque + boat.Torque - crew.Weight * S2(3); % My equation
 
@@ -50,6 +50,8 @@ disp(centerVertical.Drag);
 disp('Vertical rudder drag');
 disp(rudderVertical.Drag);
 
+disp('Vertical rudder lift');
+disp(rudderVertical.Lift);
 
 
 disp('Foil drag');

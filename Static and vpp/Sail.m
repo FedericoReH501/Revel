@@ -38,11 +38,6 @@ classdef Sail
             Cl = -2*10^(-8) * AWA^4 + 9*10^(-6) * AWA^3 - 0.0014 * AWA^2 + 0.0744 * AWA + 0.0024;
             Cd = -4*10^(-9)*AWA^4 + 10^(-6)*AWA^3 - 6*10^(-5)*AWA^2 + 0.0067*AWA - 0.0012;
             
-            disp('Cl sail');
-            disp(Cl);
-            disp('Cd sail');
-            disp(Cd);
-            
             % Induced drag coefficient (numerical)
             
             
@@ -51,11 +46,7 @@ classdef Sail
             D = 0.5 * (Cd) * ro_air * Sail.Sa * AWS_ms^2;
 
             
-            disp('Sail Lift no Proj');
-            disp(L);
-
-            disp('Sail Drag no Proj');
-            disp(D);
+            
             
             % Compute Thrust
             T = L * sin(AWA_rad) - D * cos(AWA_rad);
