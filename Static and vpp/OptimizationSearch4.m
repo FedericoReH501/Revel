@@ -17,21 +17,23 @@ boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
 centerFoil = CenterFoil(vb,thetaL, cfSpan, 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
 rudderFoil = RudderFoil(vb,thetaL ,rfSpan, 0.075); % rudder foil model passing span[m]
+rudderVertical = Vertical(vb,0.4,0.12);
+centerVertical = Vertical(vb,0.3,0.12);
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 
 
 %% Equilibrium equations
 
-Fx_eq = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag ;   % Fx equation
+Fx_eq = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag - centerVertical.Drag - rudderVertical.Drag ;   % Fx equation
 Fz_eq = centerFoil.Lift + rudderFoil.Lift - crew.Weight - boat.Weight ;    % Fz equation
-My_eq = centerFoil.Torque + rudderFoil.Torque + sail.Torque + boat.Torque - crew.Weight*x_crew ; % My equation
+My_eq = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVertical.Torque + sail.Torque + boat.Torque - crew.Weight*x_crew; % My equation
 
 %% Define Optimization Problem
 
 opt_fun = @(x) -x(1) ;  % We want to maximize boat speed (negative for minimization)
 
 % Initial guess for the variables
-x0 = [7, 2, mean(crew.range),0.8,0.3];
+x0 = [8, 0, mean(crew.range),0.8,0.6];
 
 % Lower and upper bounds for the variables
 lb = [0, -5, crew.range(1),0.3,0.3];

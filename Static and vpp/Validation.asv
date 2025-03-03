@@ -13,24 +13,24 @@ ro_water = 1025; %[kg/m^3]
 %% Define the components of the system.
 
 s1 = [7,0.21457,0.3];
-S2 = [7, -0.48797, 0.31613];
+S2 = [8.5373,0.5486,0.71582 ];
 
 wind = Wind(S2(1),wind_speed,90); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt
-centerVertical = Vertical(S2(1),0.4,0.12);
+CenterVertical = Vertical(S2(1),0.4,0.12);
 rudderVertical = Vertical(S2(1),0.3,0.12);
-centerFoil = CenterFoil(S2(1),S2(2), 1 , 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
-rudderFoil = RudderFoil(S2(1),S2(2) , 0.65, 0.075); % rudder foil model passing span[m]
+centerFoil = CenterFoil(S2(1),S2(2), 0.8, 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
+rudderFoil = RudderFoil(S2(1),S2(2) ,0.3, 0.075); % rudder foil model passing span[m]
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 
 
 %% Equilibrium equations
 
 
-eq11 = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag - centerVertical.Drag - rudderVertical.Drag;   % Fx equation
+eq11 = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag -;   % Fx equation
 eq22 = centerFoil.Lift + rudderFoil.Lift - crew.Weight - boat.Weight;    % Fz equation
-eq33 = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVertical.Torque + sail.Torque + boat.Torque - crew.Weight * S2(3); % My equation
+eq33 = centerFoil.Torque + rudderFoil.Torque + sail.Torque + boat.Torque - crew.Weight * S2(3); % My equation
 
 disp('Equations');
 disp(eq11);
@@ -39,18 +39,16 @@ disp(eq33);
 disp('-------------');
 
 FoilDrag =   centerFoil.Drag + rudderFoil.Drag;
-TotalDrag = boat.Windage + FoilDrag  + centerVertical.Drag + rudderVertical.Drag;
+TotalDrag = boat.Windage + FoilDrag;
 TotalThrust = sail.Thrust;
 totlLift = centerFoil.Lift + rudderFoil.Lift;
 TotalWeight =  crew.Weight + boat.Weight;
 
-disp('Vertical center drag');
-disp(centerVertical.Drag);
+disp('Vertical drag');
+disp(CenterVertical.Drag);
 
-disp('Vertical rudder drag');
-disp(rudderVertical.Drag);
-
-
+disp('Vertical Lift');
+disp(CenterVertical.Lift);
 
 disp('Foil drag');
 disp(FoilDrag);

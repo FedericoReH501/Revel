@@ -17,23 +17,25 @@ boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
 centerFoil = CenterFoil(vb,thetaL, 1, 0.12); % initialize center foil model passing AoA[degree] , span & chord[m]
 rudderFoil = RudderFoil(vb,thetaL ,0.65, 0.075); % rudder foil model passing span[m]
+rudderVertical = Vertical(vb,0.4,0.12);
+centerVertical = Vertical(vb,0.3,0.12);
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 
 
 %% Equilibrium equations
 
-eq1 = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag == 0;   % Fx equation
+eq1 = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag - centerVertical.Drag - rudderVertical.Drag == 0;   % Fx equation
 eq2 = centerFoil.Lift + rudderFoil.Lift - crew.Weight - boat.Weight == 0;    % Fz equation
-eq3 = centerFoil.Torque + rudderFoil.Torque + sail.Torque + boat.Torque - crew.Weight*x_crew == 0; % My equation
+eq3 = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVertical.Torque + sail.Torque + boat.Torque - crew.Weight*x_crew == 0; % My equation
 
-eq11 = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag ;   % Fx equation
+eq11 = sail.Thrust - boat.Windage - centerFoil.Drag - rudderFoil.Drag - centerVertical.Drag - rudderVertical.Drag ;   % Fx equation
 eq22 = centerFoil.Lift + rudderFoil.Lift - crew.Weight - boat.Weight;    % Fz equation
-eq33 = centerFoil.Torque + rudderFoil.Torque + sail.Torque + boat.Torque - crew.Weight*x_crew; % My equation
+eq33 = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVertical.Torque + sail.Torque + boat.Torque - crew.Weight*x_crew; % My equation
 
 %% Define dynamic initial guess ranges
 
 ranges = [boat.SpeedRange;   % Range for vb
-         -10, 10; % Range for thetaL
+         -5, 15; % Range for thetaL
          crew.range]; % Range for x_crew
 
 disp(boat.SpeedRange);
