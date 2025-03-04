@@ -4,7 +4,7 @@ clc; clear; close all;
 %% Enviroment data
 global g ro_air ro_water ; %#ok<GVMIS>
 
-wind_speed = 18; %[knot]
+wind_speed = 10; %[knot]
 wind_angle = 70; %[deg]
 g = 9.81;  % Gravitational constant (m/s^2)
 ro_air = 1.225; %[kg/m^3]

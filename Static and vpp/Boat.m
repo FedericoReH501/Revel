@@ -3,7 +3,7 @@ classdef Boat
         mass = 50;   % Mass of the boat in kg
         xg = 1.6;     % Position of the center of gravity in the x-direction (m)
         zg = 0.45;     % Position of the center of gravity in the z-direction (m)
-        Ax = 1.5; % Projected area on yz plane of hull, mast, rig, and crew     
+        Ax = 0.7; % Projected area on yz plane of hull, mast, rig, and crew     
         x_windage = 3.5; % Longitudinal position of windage drag
         z_windage = 1;   % Vertical position of windage drag
         Cd_w = 1.13; % Drag coefficient for windage
