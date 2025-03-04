@@ -5,6 +5,7 @@ clc; clear; close all;
 global g ro_air ro_water ; %#ok<GVMIS>
 
 wind_speed = 15; %[knot]
+wind_angle = 70; %[deg]
 g = 9.81;  % Gravitational constant (m/s^2)
 ro_air = 1.225; %[kg/m^3]
 ro_water = 1025; %[kg/m^3]

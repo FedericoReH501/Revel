@@ -4,7 +4,8 @@ clc; clear; close all;
 %% Enviroment data
 global g ro_air ro_water ; %#ok<GVMIS>
 
-wind_speed = 10; %[knot]
+wind_speed = 18; %[knot]
+wind_angle = 70; %[deg]
 g = 9.81;  % Gravitational constant (m/s^2)
 ro_air = 1.225; %[kg/m^3]
 ro_water = 1025; %[kg/m^3]
@@ -12,12 +13,12 @@ syms  thetaL x_crew vb cfSpan rfSpan
 
 %% Define the components of the system.
 
-wind = Wind(vb,wind_speed,70); % initialize speed[Kn] and Angle[deg]
+wind = Wind(vb,wind_speed, wind_angle); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
 
-centerFoil = CenterFoil(vb,thetaL, cfSpan, 0.12); % initialize center foil model passing AoA[degree] , span & chord[m]
-rudderFoil = RudderFoil(vb,thetaL ,rfSpan, 0.075); % rudder foil model passing span[m]
+centerFoil = CenterFoil(vb,thetaL, cfSpan, 0.1); % initialize center foil model passing AoA[degree] , span & chord[m]
+rudderFoil = RudderFoil(vb,thetaL ,rfSpan, 0.06); % rudder foil model passing span[m]
 
 centerVertical = Vertical(vb, 0.3, 0.12);
 rudderVertical = Vertical(vb, 0.2, 0.12);
@@ -37,7 +38,7 @@ My_eq = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVe
 opt_fun = @(x) -x(1) ;  % We want to maximize boat speed (negative for minimization)
 
 % Initial guess for the variables
-x0 = [6, 0, mean(crew.range), 2 , 1];
+x0 = [6, 0.5 , mean(crew.range), 1 , 0.7];
 
 % Lower and upper bounds for the variables
 lb = [0, -5, crew.range(1),0.7,0.5];
@@ -60,7 +61,7 @@ best_rfSpan = x_opt(5);
 
 %Check equilinbrium
 
-validateEquilibrium([-fval , x_opt(2), x_opt(3), x_opt(4), x_opt(5)]);
+validateEquilibrium([-fval , x_opt(2), x_opt(3), x_opt(4), x_opt(5)],wind_speed,wind_angle);
 
 % Display results
 disp('Optimal values')
@@ -84,9 +85,9 @@ function [cin, ceq] = equilibrium_constraints(x, Fx_eq, Fz_eq, My_eq)
     
     
     % Substitute optimization variables into the symbolic expressions
-    Fx_eq_val = double(subs(Fx_eq, {vb, thetaL,cfSpan,rfSpan}, {vb_n, thetaL_n, cfSpan_n,  rfSpan_n}));
+    Fx_eq_val = double(subs(Fx_eq, {vb, thetaL, cfSpan,rfSpan}, {vb_n, thetaL_n, cfSpan_n,  rfSpan_n}));
 
-    Fz_eq_val = double(subs(Fz_eq, {vb, thetaL,cfSpan,rfSpan}, {vb_n, thetaL_n,cfSpan_n,  rfSpan_n}));
+    Fz_eq_val = double(subs(Fz_eq, {vb, thetaL,cfSpan,rfSpan}, {vb_n, thetaL_n, cfSpan_n,  rfSpan_n}));
     My_eq_val = double(subs(My_eq, {vb, thetaL, x_crew, cfSpan,rfSpan}, {vb_n, thetaL_n, x_crew_n, cfSpan_n,  rfSpan_n}));
     
     % Return the residuals of the equations as ceq (equality constraints)
