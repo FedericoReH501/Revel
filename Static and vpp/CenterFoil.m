@@ -36,7 +36,7 @@ classdef CenterFoil
             [cl_cf, cd_cf] = Coefficent_f1(obj.thetaL);  % Assuming Coefficent_f1 calculates cl and cd based on thetaL
             obj.Cl = cl_cf / (1 + 2 / obj.AR); % 3D lift coefficient
             obj.Cd = cd_cf;  % Assign drag coef;ficient
-            obj.Cdw = 0.025*obj.Cl^2*obj.cm / obj.h;
+            obj.Cdw = 0.025 * obj.Cl^2 * obj.cm / obj.h;
             obj.Cdi = obj.Cl^2 / (pi*obj.AR);
             % Assuming the induced drag, wave drag, and wetted surface drag coefficients are given or calculated
         end
@@ -52,7 +52,7 @@ classdef CenterFoil
         function Drag = Drag(obj)
             global ro_water;  % Access the global variable vb (velocity)
             % Drag = 0.5 * ro_water * vb^2 * ((cd_cf + Cdi_cf + Cdw_cf) * S_cf + Cdws_cf * t_cf^2);
-            Drag = 0.5 * ro_water * obj.vb^2 * ((obj.Cd + obj.Cdi + obj.Cdw)*obj.S + obj.Cdws * obj.t^2) ;
+            Drag = 0.5 * ro_water * obj.vb^2 * ((obj.Cd + obj.Cdi + obj.Cdw) * obj.S + obj.Cdws * obj.t^2) ;
         end
 
         function Torque = Torque(obj) %% Total torque (to the origin)

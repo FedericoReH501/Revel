@@ -60,7 +60,7 @@ classdef Sail
             T = obj.Thrust();
             
             % Compute Torque (Thrust * z)
-            Torque =  - T * abs(obj.z);
+            Torque =   T * abs(obj.z);
         end
     end
 end

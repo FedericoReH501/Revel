@@ -4,7 +4,7 @@ clc; clear; close all;
 %% Enviroment data
 global g ro_air ro_water ; %#ok<GVMIS>
 
-wind_speed = 10; %[knot]
+wind_speed = 15; %[knot]
 g = 9.81;  % Gravitational constant (m/s^2)
 ro_air = 1.225; %[kg/m^3]
 ro_water = 1025; %[kg/m^3]
@@ -15,8 +15,8 @@ syms  thetaL x_crew vb
 wind = Wind(vb,wind_speed,60); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
-centerFoil = CenterFoil(vb,thetaL, 0.8, 0.085); % initialize center foil model passing AoA[degree] , span & chord[m]
-rudderFoil = RudderFoil(vb,thetaL ,0.6, 0.075); % rudder foil model passing span[m]
+centerFoil = CenterFoil(vb,thetaL, 1.4, 0.1); % initialize center foil model passing AoA[degree] , span & chord[m]
+rudderFoil = RudderFoil(vb,thetaL ,1, 0.075); % rudder foil model passing span[m]
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
 
 

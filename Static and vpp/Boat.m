@@ -21,7 +21,7 @@ classdef Boat
             if nargin > 0
                 
                 obj.wind = wind;  % Assign the Wind object to the wind property
-                obj.SpeedRange = [obj.wind.TWS * 0.51444 * 0.4, obj.wind.TWS * 0.51444 * 2];
+                obj.SpeedRange = [obj.wind.TWS * 0.51444 , obj.wind.TWS * 0.51444 * 1.5];
             
             end
             % Constants are set, so no need for initialization here

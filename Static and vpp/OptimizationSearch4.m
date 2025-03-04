@@ -12,15 +12,15 @@ syms  thetaL x_crew vb cfSpan rfSpan
 
 %% Define the components of the system.
 
-wind = Wind(vb,wind_speed,60); % initialize speed[Kn] and Angle[deg]
+wind = Wind(vb,wind_speed,70); % initialize speed[Kn] and Angle[deg]
 boat = Boat(wind); % pass the wind to our boat model
 crew = Crew(75,[0.3,2]); % define the crew mass[kg] , and range of movemnt 
 
 centerFoil = CenterFoil(vb,thetaL, cfSpan, 0.12); % initialize center foil model passing AoA[degree] , span & chord[m]
 rudderFoil = RudderFoil(vb,thetaL ,rfSpan, 0.075); % rudder foil model passing span[m]
 
-centerVertical = Vertical(vb,0.4,0.12);
-rudderVertical = Vertical(vb,0.3,0.12);
+centerVertical = Vertical(vb, 0.3, 0.12);
+rudderVertical = Vertical(vb, 0.2, 0.12);
 
 
 sail = Sail(1.07,wind); % pass to the sail X positio[m], and the current wind model
@@ -37,11 +37,11 @@ My_eq = centerFoil.Torque + rudderFoil.Torque + centerVertical.Torque + rudderVe
 opt_fun = @(x) -x(1) ;  % We want to maximize boat speed (negative for minimization)
 
 % Initial guess for the variables
-x0 = [8, 0, mean(crew.range),0.8,0.6];
+x0 = [6, 0, mean(crew.range), 2 , 1];
 
 % Lower and upper bounds for the variables
-lb = [0, -5, crew.range(1),0.3,0.3];
-ub = [10, 5, crew.range(2),0.8,0.9];
+lb = [0, -5, crew.range(1),0.7,0.5];
+ub = [16, 10, crew.range(2),2,1.2];
 
 %% Defining equilibrium constrain
 
